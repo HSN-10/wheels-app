@@ -84,11 +84,10 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => setState(() => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => CreatePost()),
-          )),
+        onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return const CreatePost();
+        },)
+        ),
         tooltip: 'Create Post',
         backgroundColor: Colors.green,
         child: const Icon(Icons.add),

@@ -377,7 +377,7 @@ class _PostPageState extends State<PostPage> {
                       radius: 38,
                       child: ClipOval(
                         child: Image.network(
-                          'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+                          'https://www.prajwaldesai.com/wp-content/uploads/2021/02/Find-Users-Last-Logon-Time-using-4-Easy-Methods.jpg',
                           width: 150,
                           height: 150,
                           fit: BoxFit.cover,
