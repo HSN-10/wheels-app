@@ -14,7 +14,6 @@ class Cards extends StatelessWidget {
   final String carprice;
   final String carimage;
   final bool sale;
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -54,7 +53,17 @@ class Cards extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                  ))
+                  )),
+              Positioned(
+                right: 0,
+                child: IconButton(onPressed: (){
+                  
+                }, 
+                icon: Icon(Icons.favorite_border),
+                color: Colors.white,
+                highlightColor: Colors.white,
+                ),
+              )
             ]),
             Padding(
               padding: const EdgeInsets.all(8.0),

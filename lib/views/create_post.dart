@@ -38,6 +38,34 @@ class _CreatePostState extends State<CreatePost> {
           padding: const EdgeInsets.all(12.0),
           child: Column(children: [
             const SizedBox(height: 15,),
+            const Text("Post Detalis", style: TextStyle(fontSize: 18),),
+            Container(
+              color: Colors.white,
+              child: Column(children: [
+                TextFormField(
+                  decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                    labelText: 'Title',
+                  ),
+                ),
+                TextFormField(
+                  keyboardType: TextInputType.multiline,
+                  minLines: 2,
+                  maxLines: 5,
+                  decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                    labelText: 'Description (optional)',
+                  ),
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                    labelText: 'Price',
+                  ),
+                ),
+              ]),
+            ),
+            const SizedBox(height: 20,),
             const Text("Vehicle", style: TextStyle(fontSize: 18),),
             Container(
               color: Colors.white,
@@ -182,17 +210,28 @@ class _CreatePostState extends State<CreatePost> {
                     },
                     isExpanded: true,
                 ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'Colour',
-                  ),
-                ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'Doors',
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ConstrainedBox(
+                      constraints: BoxConstraints.tight(const Size(170, 50)),
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                          border: UnderlineInputBorder(),
+                          labelText: 'Colour',
+                        ),
+                      ),
+                    ),
+                    ConstrainedBox(
+                      constraints: BoxConstraints.tight(const Size(170, 50)),
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                          border: UnderlineInputBorder(),
+                          labelText: 'Doors',
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ])
               ),
