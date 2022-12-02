@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PostPage extends StatefulWidget {
-  const PostPage({super.key, required this.title, required this.image, required this.price});
+  const PostPage({super.key, required this.idPost, required this.title, required this.image, required this.price});
+  final int idPost;
   final String title;
   final String image;
   final String price;
@@ -52,7 +53,11 @@ class _PostPageState extends State<PostPage> {
                         fontSize: 18, fontWeight: FontWeight.bold,
                         color: Colors.grey),
                   ),
-                )
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(left: 10, top: 7,bottom: 8),
+                  child: Text("Negotiable", style: TextStyle(color: Colors.blueGrey),),
+                  )
               ],
             ),
             Row(
@@ -272,7 +277,7 @@ class _PostPageState extends State<PostPage> {
                           '4',
                           style: GoogleFonts.adamina(
                               fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 0, 53, 97)),
+                              color: const Color.fromARGB(255, 0, 53, 97)),
                         )
                       ],
                     ),
@@ -286,13 +291,13 @@ class _PostPageState extends State<PostPage> {
                           'Number of Owners',
                           style: GoogleFonts.adamina(
                               fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 0, 53, 97)),
+                              color: const Color.fromARGB(255, 0, 53, 97)),
                         ),
                         Text(
                           '2',
                           style: GoogleFonts.adamina(
                               fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 0, 53, 97)),
+                              color: const Color.fromARGB(255, 0, 53, 97)),
                         )
                       ],
                     ),
@@ -306,13 +311,13 @@ class _PostPageState extends State<PostPage> {
                           'Number of Accidents',
                           style: GoogleFonts.adamina(
                               fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 0, 53, 97)),
+                              color: const Color.fromARGB(255, 0, 53, 97)),
                         ),
                         Text(
                           '0',
                           style: GoogleFonts.adamina(
                               fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 0, 53, 97)),
+                              color: const Color.fromARGB(255, 0, 53, 97)),
                         )
                       ],
                     ),
@@ -320,7 +325,7 @@ class _PostPageState extends State<PostPage> {
                 ],
               ),
             ),
-            SizedBox(height: 15,),
+            const SizedBox(height: 15,),
             Container(
               color: Colors.white,
               child: Padding(
@@ -335,10 +340,10 @@ class _PostPageState extends State<PostPage> {
                           'Description',
                           style: GoogleFonts.adamina(
                               fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 0, 53, 97),
+                              color: const Color.fromARGB(255, 0, 53, 97),
                               fontSize: 16),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Padding(
@@ -359,7 +364,7 @@ class _PostPageState extends State<PostPage> {
                 ),
               ),
             ),
-            SizedBox(height: 15,),
+            const SizedBox(height: 15,),
             Container(
               width: MediaQuery.of(context).size.width/1.1,
               decoration: BoxDecoration(
@@ -384,8 +389,8 @@ class _PostPageState extends State<PostPage> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 20.0),
                       child: 
                           Text(
                             'Ali Hussain',

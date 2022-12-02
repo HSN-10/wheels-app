@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 List<LatestPost> latestPostFromJson(String str) => List<LatestPost>.from(json.decode(str).map((x) => LatestPost.fromJson(x)));
@@ -7,28 +6,29 @@ String latestPostToJson(List<LatestPost> data) => json.encode(List<dynamic>.from
 
 class LatestPost {
     LatestPost({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.user,
-    required this.price,
-    required this.isAskPrice,
-    required this.typePost,
-    required this.maker,
-    required this.model,
-    required this.colour,
-    required this.years,
-    required this.bodyType,
-    required this.transmissionType,
-    required this.kilometrage,
-    required this.gasType,
-    required this.doors,
-    required this.engineCylinders,
-    required this.condition,
-    required this.numberOfOwners,
-    required this.numberOfAccidents,
-    required this.createdAt,
-    required this.updatedAt,
+        required this.id,
+        required this.title,
+        required this.description,
+        required this.user,
+        required this.price,
+        required this.negotiable,
+        required this.image,
+        required this.typePost,
+        required this.maker,
+        required this.model,
+        required this.colour,
+        required this.years,
+        required this.bodyType,
+        required this.transmissionType,
+        required this.kilometrage,
+        required this.gasType,
+        required this.doors,
+        required this.engineCylinders,
+        required this.condition,
+        required this.numberOfOwners,
+        required this.numberOfAccidents,
+        required this.createdAt,
+        required this.updatedAt,
     });
 
     int id;
@@ -36,7 +36,8 @@ class LatestPost {
     String description;
     User user;
     int price;
-    bool isAskPrice;
+    bool negotiable;
+    String image;
     String typePost;
     String maker;
     String model;
@@ -60,7 +61,8 @@ class LatestPost {
         description: json["description"],
         user: User.fromJson(json["user"]),
         price: json["price"],
-        isAskPrice: json["is_ask_price"],
+        negotiable: json["negotiable"],
+        image: json["image"],
         typePost: json["type_post"],
         maker: json["maker"],
         model: json["model"],
@@ -85,7 +87,8 @@ class LatestPost {
         "description": description,
         "user": user.toJson(),
         "price": price,
-        "is_ask_price": isAskPrice,
+        "negotiable": negotiable,
+        "image": image,
         "type_post": typePost,
         "maker": maker,
         "model": model,
@@ -107,9 +110,9 @@ class LatestPost {
 
 class BodyType {
     BodyType({
-      required this.id,
-      required this.name,
-      required this.icon,
+        required this.id,
+        required this.name,
+        required this.icon,
     });
 
     int id;
