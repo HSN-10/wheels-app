@@ -1,5 +1,6 @@
 import 'dart:convert';
-
+import 'body_type.dart';
+import 'user.dart';
 List<LatestPost> latestPostFromJson(String str) => List<LatestPost>.from(json.decode(str).map((x) => LatestPost.fromJson(x)));
 
 String latestPostToJson(List<LatestPost> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
@@ -105,61 +106,5 @@ class LatestPost {
         "number_of_accidents": numberOfAccidents,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
-    };
-}
-
-class BodyType {
-    BodyType({
-        required this.id,
-        required this.name,
-        required this.icon,
-    });
-
-    int id;
-    String name;
-    String icon;
-
-    factory BodyType.fromJson(Map<String, dynamic> json) => BodyType(
-        id: json["id"],
-        name: json["name"],
-        icon: json["icon"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "icon": icon,
-    };
-}
-
-class User {
-    User({
-        required this.id,
-        required this.name,
-        required this.email,
-        required this.phone,
-        required this.createdAt,
-    });
-
-    int id;
-    String name;
-    String email;
-    int phone;
-    DateTime createdAt;
-
-    factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json["id"],
-        name: json["name"],
-        email: json["email"],
-        phone: json["phone"],
-        createdAt: DateTime.parse(json["created_at"]),
-    );
-
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "email": email,
-        "phone": phone,
-        "created_at": createdAt.toIso8601String(),
     };
 }

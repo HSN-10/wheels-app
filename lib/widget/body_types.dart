@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class BodyType extends StatelessWidget {
-  const BodyType({Key? key, required this.name, required this.icon})
+class BodyTypeWidget extends StatelessWidget {
+  const BodyTypeWidget({Key? key, required this.name, required this.icon})
       : super(
           key: key,
         );

@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 List<BodyType> bodyTypeFromJson(String str) => List<BodyType>.from(json.decode(str).map((x) => BodyType.fromJson(x)));
