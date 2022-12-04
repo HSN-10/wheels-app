@@ -17,6 +17,7 @@ class HomePage extends StatefulWidget{
 class _HomePageState extends State<HomePage> {
   late List<BodyType> bodyType;
   late List<LatestPost> latestPost;
+  bool loading = true;
   @override
   void initState(){
     latestPost = [];
@@ -26,12 +27,15 @@ class _HomePageState extends State<HomePage> {
   }
   Future refresh() async {
     setState(() {
-      getData();
+      getData(); 
     });
   }
   getData() async{
     bodyType = (await RemoteService().getBodyTypes())!.cast<BodyType>();
     latestPost = (await RemoteService().getLatestPosts())!.cast<LatestPost>();
+    setState(() {
+      loading = false;
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -60,7 +64,7 @@ class _HomePageState extends State<HomePage> {
           ), icon: const Icon(Icons.login), tooltip: "Login",),
         ],
       ),
-      body: RefreshIndicator(
+      body: loading? CircularProgressIndicator() : RefreshIndicator(
         onRefresh: refresh,
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,

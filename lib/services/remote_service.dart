@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:wheels/models/latest_post.dart';
 import 'package:wheels/views/Auth/login.dart';
@@ -20,7 +19,7 @@ class RemoteService
     );
     if(response.statusCode == 200){
       var json = response.body;
-      return latestPostFromJson(json);
+      return latestPostFromJson(json); 
     }
     return null; 
   }
@@ -53,7 +52,6 @@ class RemoteService
       headers:  {"Accept":"application/json", "Content-Type":"appliction/json"},
       body: body
     );
-    print(response.body);
     return response;
   }
   Future<http.Response> login(String email, String password) async{

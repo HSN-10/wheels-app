@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:wheels/views/Auth/register.dart';
 import 'package:http/http.dart' as http;
 import '../../services/remote_service.dart';
@@ -19,10 +20,12 @@ class _LoginState extends State<Login> {
   late String password;
 
 login() async{
-  print(email);
   http.Response response = await RemoteService().login(email, password);
   Map responseMap = jsonDecode(response.body);
-  if(response.statusCode == 200){
+  if(response.statusCode == 200){ 
+    print(responseMap.values.last);
+    final storage = new FlutterSecureStorage();
+    await storage.write(key: 'token', value: responseMap.values.last);
     Navigator.push(
       context,
       MaterialPageRoute(builder: (BuildContext context) => const HomePage())

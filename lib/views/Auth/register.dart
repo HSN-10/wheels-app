@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:wheels/services/remote_service.dart';
 import 'package:wheels/views/home_page.dart';
@@ -23,6 +24,8 @@ register() async{
   http.Response response = await RemoteService().register(name, email, password, phone);
   Map responseMap = jsonDecode(response.body);
   if(response.statusCode == 200){
+    final storage = new FlutterSecureStorage();
+    await storage.write(key: 'token', value: responseMap.values.last);
     Navigator.push(
       context,
       MaterialPageRoute(builder: (BuildContext context) => const HomePage())
