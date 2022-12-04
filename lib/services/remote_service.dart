@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:wheels/models/latest_post.dart';
+import 'package:wheels/views/Auth/login.dart';
 
 import '../models/body_type.dart';
 
@@ -34,5 +37,38 @@ class RemoteService
       return bodyTypeFromJson(json);
     }
     return null; 
+  }
+
+  Future<http.Response> register(String name, String email, String password, String phone) async{
+    Map data = {
+      "name":name,
+      "email":email,
+      "password":password,
+      "phone":phone,
+    };
+    var body = json.encode(data);
+    var url = Uri.parse("${apiURL}auth/register");
+    http.Response response = await http.post(
+      url,
+      headers:  {"Accept":"application/json", "Content-Type":"appliction/json"},
+      body: body
+    );
+    print(response.body);
+    return response;
+  }
+  Future<http.Response> login(String email, String password) async{
+    Map data = {
+      "email":email,
+      "password":password,
+    };
+    var body = json.encode(data);
+    var url = Uri.parse("${apiURL}auth/login");
+    http.Response response = await http.post(
+      url,
+      headers:  {"Accept":"application/json", "Content-Type":"appliction/json"},
+      body: body
+    );
+    print(response.body);
+    return response;
   }
 }
