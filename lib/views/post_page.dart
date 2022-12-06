@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import '../models/body_type.dart';
 import '../models/user.dart';
 
@@ -84,7 +85,7 @@ class _PostPageState extends State<PostPage> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             ElevatedButton(
-              onPressed: () => print('call'),
+              onPressed: () => UrlLauncher.launch("tel:+973${widget.user.phone}"),
               style:
                   ElevatedButton.styleFrom(backgroundColor: Colors.green),
               child: Row(
