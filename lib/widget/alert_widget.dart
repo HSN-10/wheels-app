@@ -1,10 +1,25 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 class AlertWidget extends StatelessWidget {
   const AlertWidget({
     Key? key,
+    required this.id,
+    required this.price_from,
+    required this.price_to,
+    required this.maker,
+    required this.model,
+    required this.colour,
+    required this.years,
   }) : super(key: key);
-
+  final int id;
+  final int price_from;
+  final int price_to;
+  final String maker;
+  final String model;
+  final String colour;
+  final String years;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -20,18 +35,18 @@ class AlertWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text('Test'),
-                Text('Test'),
-                Text('Test'),
+                Text(price_from.toString()),
+                Text(maker),
+                Text(colour),
               ]
             ),
             const SizedBox(height: 10,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text('Test'),
-                Text('Test'),
-                Text('Test'),
+                Text(price_to.toString()),
+                Text(model),
+                Text(years.toString()),
               ]
             ),
             const SizedBox(height: 10,),

@@ -54,9 +54,15 @@ class _AlertsState extends State<Alerts> {
       body: loading
           ? CircularProgressIndicator()
           : Wrap(
-              children: [
-                AlertWidget()
-              ]
+              children: List.generate(alert.length, (i) => AlertWidget(
+                id: alert[i].id,
+                price_from: alert[i].priceFrom,
+                price_to: alert[i].priceTo,
+                maker: alert[i].maker.toString(),
+                model: alert[i].model.toString(),
+                years: alert[i].years.toString(), 
+                colour: alert[i].colour.toString(),
+                ))
               ),
     );
   }
