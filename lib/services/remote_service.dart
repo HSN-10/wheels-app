@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:wheels/models/alert.dart';
 import 'package:wheels/models/latest_post.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -40,6 +41,22 @@ class RemoteService {
     return null;
   }
 
+Future<List<Alert>?> getAlerts() async {
+    var client = http.Client();
+    var url = Uri.parse('${apiURL}alerts');
+    final storage = new FlutterSecureStorage();
+    String? token = await storage.read(key: 'token');
+    var response = await client.get(url, headers: {
+      "Accept": "application/json",
+      "Content-Type": "appliction/json",
+      "Authorization": "Bearer $token"
+    });
+    if (response.statusCode == 200) {
+      var json = response.body;
+      return alertFromJson(json);
+    }
+    return null;
+  }
   Future<List<BodyType>?> getBodyTypes() async {
     var client = http.Client();
     var url = Uri.parse('${apiURL}bodyType');

@@ -10,6 +10,8 @@ import 'package:wheels/widget/post.dart';
 import '../widget/body_types.dart';
 import 'package:http/http.dart' as http;
 
+import 'alert.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -65,7 +67,11 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             onPressed: () => Navigator.push(context, MaterialPageRoute(
               builder: (context) {
+                if(token == null){
                 return const Login();
+                }else{
+                  return const Alerts();
+                }
               },
             )),
             icon: const Icon(Icons.notification_add),
