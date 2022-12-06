@@ -9,70 +9,33 @@ import '../services/remote_service.dart';
 const List<String> transmission = <String>['Manual', 'Automatic'];
 const List<String> condition = <String>['New', 'Used', 'Scrap'];
 const List<String> gasType = <String>['Diesel', 'Jayyid', 'Mumtaz', 'Super'];
-const List<String> postType = <String>['Request', 'Sale'];
-const List<String> negotiable = <String>['Non-negotiable', 'Negotiable'];
+
 const apiURL = "http://192.168.100.184/api/";
-class CreatePost extends StatefulWidget {
-  const CreatePost({Key? key}) : super(key: key);
+class CreateAlertScreen extends StatefulWidget {
+  const CreateAlertScreen({Key? key}) : super(key: key);
 
   @override
-  _CreatePostState createState() => _CreatePostState();
+  _CreateAlertScreenState createState() => _CreateAlertScreenState();
 }
 
-class _CreatePostState extends State<CreatePost> {
+class _CreateAlertScreenState extends State<CreateAlertScreen> {
   List bodyType = [];
   bool loading = true;
   
-  late XFile _image;
-  late String title;
-  late String description;
-  late int price;
-  late String postTypeValue = postType.first;
-  late String negotiableValue = negotiable.first;
+  late int price_from;
+  late int price_to;
   late String maker;
   late String model;
   late int years;
   late int kilometrage;
   late String transmissionValue = transmission.first;
   late String conditionValue = condition.first;
-  late int number_of_owners;
-  late int number_of_accidents;
-  late var bodyTypeValue = 0;
+  late var bodyTypeValue;
   late String colour;
   late int doors;
   late int engine_cylinders;
   late String gasTypeValue = gasType.first;
   
-create_post() async {
-    http.Response response = await RemoteService().create_post(
-      title,
-      description,
-      price,
-      negotiable.indexOf(negotiableValue),
-      _image,
-      maker,
-      model,
-      colour,
-      years,
-      bodyTypeValue,
-      transmission.indexOf(transmissionValue),
-      kilometrage,
-      gasType.indexOf(gasTypeValue),
-      doors,
-      engine_cylinders,
-      condition.indexOf(conditionValue),
-      number_of_owners,
-      number_of_accidents,
-      postType.indexOf(postTypeValue)
-    );
-    Map responseMap = jsonDecode(response.body);
-    if (response.statusCode == 200) {
-      print(responseMap.values.last);
-      Navigator.pop(context);
-    } else {
-      errorSnackBar(context, responseMap.values.first[0].toString());
-    }
-  }
 
   Future getBodyTypes() async {
     var baseUrl = "${apiURL}bodyType";
@@ -113,15 +76,13 @@ create_post() async {
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Create Post"),
+          title: const Text("Create Alert"),
           backgroundColor: Colors.green,
           actions: [
             IconButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      create_post()
-                    );
+                    
                   }
                 },
                 icon: const Icon(Icons.add))
@@ -138,7 +99,7 @@ create_post() async {
                     height: 15,
                   ),
                   const Text(
-                    "Post Detalis",
+                    "Alert Detalis",
                     style: TextStyle(fontSize: 18),
                   ),
                   Container(
@@ -147,46 +108,12 @@ create_post() async {
                       const SizedBox(
                         height: 15,
                       ),
-                      GestureDetector(
-                        child: const Text("Select An Image"),
-                        onTap: () async {
-                          _pickedFile = await _picker.getImage(
-                              source: ImageSource.gallery);
-                          if (_pickedFile != null) {
-                            setState(() {
-                              _image = XFile(_pickedFile!.path);
-                            });
-                          }
-                        },
-                      ),
                       TextFormField(
                         decoration: const InputDecoration(
                           border: UnderlineInputBorder(),
-                          labelText: 'Title',
+                          labelText: 'Price From',
                         ),
-                        onChanged: (value) => title = value,
-                        validator: (value) {
-                          if (value == null || value.isEmpty)
-                            return 'The title field is required.';
-                          return null;
-                        },
-                      ),
-                      TextFormField(
-                        keyboardType: TextInputType.multiline,
-                        minLines: 2,
-                        maxLines: 5,
-                        decoration: const InputDecoration(
-                          border: UnderlineInputBorder(),
-                          labelText: 'Description (optional)',
-                        ),
-                        onChanged: (value) => description = value,
-                      ),
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          border: UnderlineInputBorder(),
-                          labelText: 'Price',
-                        ),
-                        onChanged: (value) => price = int.parse(value),
+                        onChanged: (value) => price_from = int.parse(value),
                         validator: (value) {
                           if (value == null || value.isEmpty)
                             return 'The price field is required.';
@@ -195,56 +122,20 @@ create_post() async {
                           return null;
                         },
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: const [
-                          Text("Post Type"),
-                        ],
-                      ),
-                      DropdownButton(
-                        items: postType
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        hint: const Text("Select Post Type"),
-                        value: postTypeValue,
-                        onChanged: (String? value) {
-                          setState(() {
-                            postTypeValue = value!;
-                          });
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          border: UnderlineInputBorder(),
+                          labelText: 'Price To',
+                        ),
+                        onChanged: (value) => price_to = int.parse(value),
+                        validator: (value) {
+                          if (value == null || value.isEmpty)
+                            return 'The price field is required.';
+                          else if (!isNumeric(value))
+                            return 'The price must be an integer.';
+                          return null;
                         },
-                        isExpanded: true,
                       ),
-                      SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          children: const [
-                            Text("Negotiable"),
-                          ],
-                        ),
-                        DropdownButton(
-                          hint: const Text("Select Negotiable"),
-                          items: negotiable
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          value: negotiableValue,
-                          onChanged: (String? value) {
-                            setState(() {
-                              negotiableValue = value!;
-                            });
-                          },
-                          isExpanded: true,
-                        ),
                     ]),
                   ),
                   const SizedBox(
@@ -388,47 +279,6 @@ create_post() async {
                       ),
                       const SizedBox(
                         height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          ConstrainedBox(
-                            constraints:
-                                BoxConstraints.tight(const Size(170, 100)),
-                            child: TextFormField(
-                              decoration: const InputDecoration(
-                                border: UnderlineInputBorder(),
-                                labelText: 'Number Of Owners',
-                              ),
-                              onChanged: (value) => number_of_owners = int.parse(value),
-                              validator: (value) {
-                                if (value == null || value.isEmpty)
-                                  return 'The owners field is required.';
-                                else if (!isNumeric(value))
-                                  return 'The owners must be an integer.';
-                                return null;
-                              },
-                            ),
-                          ),
-                          ConstrainedBox(
-                            constraints:
-                                BoxConstraints.tight(const Size(170, 100)),
-                            child: TextFormField(
-                              decoration: const InputDecoration(
-                                border: UnderlineInputBorder(),
-                                labelText: 'Number Of Accidents',
-                              ),
-                              onChanged: (value) => number_of_accidents = int.parse(value),
-                              validator: (value) {
-                                if (value == null || value.isEmpty)
-                                  return 'The accidents field is required.';
-                                else if (!isNumeric(value))
-                                  return 'The accidents must be an integer.';
-                                return null;
-                              },
-                            ),
-                          ),
-                        ],
                       ),
                     ]),
                   ),

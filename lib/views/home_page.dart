@@ -4,6 +4,7 @@ import 'package:wheels/models/body_type.dart';
 import 'package:wheels/models/latest_post.dart';
 import 'package:wheels/services/remote_service.dart';
 import 'package:wheels/views/Auth/login.dart';
+import 'package:wheels/views/counter_offers.dart';
 import 'package:wheels/views/create_post.dart';
 import 'package:wheels/views/favorites.dart';
 import 'package:wheels/widget/post.dart';
@@ -58,18 +59,22 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             onPressed: () => Navigator.push(context, MaterialPageRoute(
               builder: (context) {
-                return const Login();
+                if (token == null) {
+                  return const Login();
+                } else {
+                  return const CounterOffersScreen();
+                }
               },
             )),
-            icon: const Icon(Icons.search),
-            tooltip: "Search",
+            icon: const Icon(Icons.attach_money),
+            tooltip: "Counter Offers",
           ),
           IconButton(
             onPressed: () => Navigator.push(context, MaterialPageRoute(
               builder: (context) {
-                if(token == null){
-                return const Login();
-                }else{
+                if (token == null) {
+                  return const Login();
+                } else {
                   return const Alerts();
                 }
               },
@@ -132,6 +137,7 @@ class _HomePageState extends State<HomePage> {
                           children: List.generate(
                               bodyType.length,
                               (i) => BodyTypeWidget(
+                                  id: bodyType[i].id,
                                   name: bodyType[i].name,
                                   icon: bodyType[i].icon))),
                     ),

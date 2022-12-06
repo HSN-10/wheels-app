@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:wheels/models/alert.dart';
+import 'package:wheels/models/counter_offers.dart';
 import 'package:wheels/models/latest_post.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -9,7 +10,7 @@ import '../models/body_type.dart';
 
 const apiURL = "http://192.168.100.184/api/";
 class RemoteService {
-
+  final storage = new FlutterSecureStorage();
   Future<List<LatestPost>?> getLatestPosts() async {
     var client = http.Client();
     var url = Uri.parse('${apiURL}post/latest');
@@ -24,10 +25,23 @@ class RemoteService {
     return null;
   }
 
+    Future<List<LatestPost>?> getFilterPosts(int id) async {
+    var client = http.Client();
+    var url = Uri.parse('${apiURL}search/BodyType/${id}');
+    var response = await client.get(url, headers: {
+      "Accept": "application/json",
+      "Content-Type": "appliction/json"
+    });
+    if (response.statusCode == 200) {
+      var json = response.body;
+      return latestPostFromJson(json);
+    }
+    return null;
+  }
+
   Future<List<LatestPost>?> getFavotites() async {
     var client = http.Client();
     var url = Uri.parse('${apiURL}favorites');
-    final storage = new FlutterSecureStorage();
     String? token = await storage.read(key: 'token');
     var response = await client.get(url, headers: {
       "Accept": "application/json",
@@ -44,7 +58,6 @@ class RemoteService {
 Future<List<Alert>?> getAlerts() async {
     var client = http.Client();
     var url = Uri.parse('${apiURL}alerts');
-    final storage = new FlutterSecureStorage();
     String? token = await storage.read(key: 'token');
     var response = await client.get(url, headers: {
       "Accept": "application/json",
@@ -57,6 +70,24 @@ Future<List<Alert>?> getAlerts() async {
     }
     return null;
   }
+
+  Future<List<CounterOffers>?> getCounterOffers() async {
+    var client = http.Client();
+    var url = Uri.parse('${apiURL}counterOffers');
+
+    String? token = await storage.read(key: 'token');
+    var response = await client.get(url, headers: {
+      "Accept": "application/json",
+      "Content-Type": "appliction/json",
+      "Authorization": "Bearer $token"
+    });
+    if (response.statusCode == 200) {
+      var json = response.body;
+      return counterOffersFromJson(json);
+    }
+    return null;
+  }
+
   Future<List<BodyType>?> getBodyTypes() async {
     var client = http.Client();
     var url = Uri.parse('${apiURL}bodyType');
@@ -155,7 +186,6 @@ Future<List<Alert>?> getAlerts() async {
       "number_of_accidents":number_of_accidents,
       "type_post":type_post,
     };
-    final storage = new FlutterSecureStorage();
     String? token = await storage.read(key: 'token');
     var body = json.encode(data);
     var url = Uri.parse("${apiURL}post/create");

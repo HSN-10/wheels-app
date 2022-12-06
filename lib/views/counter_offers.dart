@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:wheels/models/alert.dart';
+import 'package:wheels/models/counter_offers.dart';
 import 'package:wheels/views/create_alert.dart';
 
 import '../models/latest_post.dart';
@@ -8,21 +9,21 @@ import '../services/remote_service.dart';
 import '../widget/alert_widget.dart';
 import '../widget/post.dart';
 
-class Alerts extends StatefulWidget {
-  const Alerts({super.key});
+class CounterOffersScreen extends StatefulWidget {
+  const CounterOffersScreen({super.key});
 
   @override
-  State<Alerts> createState() => _AlertsState();
+  State<CounterOffersScreen> createState() => _CounterOffersScreenState();
 }
 
-class _AlertsState extends State<Alerts> {
-  late List<Alert> alert = [];
+class _CounterOffersScreenState extends State<CounterOffersScreen> {
+  late List<CounterOffers> counterOffers = [];
   bool loading = true;
   final storage = new FlutterSecureStorage();
   String? token;
   @override
   void initState() {
-    alert = [];
+    counterOffers = [];
     getData();
     super.initState();
   }
@@ -34,7 +35,7 @@ class _AlertsState extends State<Alerts> {
   }
 
   getData() async {
-    alert = (await RemoteService().getAlerts())!.cast<Alert>();
+    counterOffers = (await RemoteService().getCounterOffers())!.cast<CounterOffers>();
     
     setState(() {
       loading = false;
@@ -46,25 +47,13 @@ class _AlertsState extends State<Alerts> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Alerts"),
+        title: const Text("Counter Offers"),
         backgroundColor: Colors.green,
-        actions: [
-          IconButton(onPressed: ()=>
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>CreateAlertScreen())), icon: const Icon(Icons.add))
-        ],
       ),
       body: loading
           ? const CircularProgressIndicator()
           : Wrap(
-              children: List.generate(alert.length, (i) => AlertWidget(
-                id: alert[i].id,
-                price_from: alert[i].priceFrom,
-                price_to: alert[i].priceTo,
-                maker: alert[i].maker.toString(),
-                model: alert[i].model.toString(),
-                years: alert[i].years.toString(), 
-                colour: alert[i].colour.toString(),
-                ))
+              children: []
               ),
     );
   }
