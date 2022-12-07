@@ -83,6 +83,7 @@ class PostWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Stack(children: [
+              image == "null" ? Image.asset('assets/images/no-image.jpg', width: MediaQuery.of(context).size.width / 2.2 ,):
               Image.network(
                   width: MediaQuery.of(context).size.width / 2.2, image),
               Positioned(

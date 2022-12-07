@@ -46,7 +46,7 @@ class _favoritesState extends State<favorites> {
         backgroundColor: Colors.green,
       ),
       body: loading
-          ? CircularProgressIndicator()
+          ? const Center(child: CircularProgressIndicator())
           : Wrap(
               children: List.generate(
                   latestPost.length,

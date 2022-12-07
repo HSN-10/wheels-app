@@ -59,11 +59,11 @@ class LatestPost {
     factory LatestPost.fromJson(Map<String, dynamic> json) => LatestPost(
         id: json["id"],
         title: json["title"],
-        description: json["description"],
+        description: json["description"].toString(),
         user: User.fromJson(json["user"]),
         price: json["price"],
         negotiable: json["negotiable"],
-        image: json["image"],
+        image: json["image"].toString(),
         typePost: json["type_post"],
         maker: json["maker"],
         model: json["model"],

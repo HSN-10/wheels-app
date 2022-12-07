@@ -120,7 +120,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: loading
-          ? CircularProgressIndicator()
+          ? Center(child: const CircularProgressIndicator())
           : RefreshIndicator(
               onRefresh: refresh,
               child: SingleChildScrollView(

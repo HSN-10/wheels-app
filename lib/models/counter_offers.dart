@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:wheels/models/post.dart';
+import 'package:wheels/models/user.dart';
 
 List<CounterOffers> counterOffersFromJson(String str) => List<CounterOffers>.from(json.decode(str).map((x) => CounterOffers.fromJson(x)));
 

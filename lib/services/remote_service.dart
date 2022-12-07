@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import '../models/body_type.dart';
 
 const apiURL = "http://192.168.100.184/api/";
+
 class RemoteService {
   final storage = new FlutterSecureStorage();
   Future<List<LatestPost>?> getLatestPosts() async {
@@ -25,7 +26,7 @@ class RemoteService {
     return null;
   }
 
-    Future<List<LatestPost>?> getFilterPosts(int id) async {
+  Future<List<LatestPost>?> getFilterPosts(int id) async {
     var client = http.Client();
     var url = Uri.parse('${apiURL}search/BodyType/${id}');
     var response = await client.get(url, headers: {
@@ -55,7 +56,7 @@ class RemoteService {
     return null;
   }
 
-Future<List<Alert>?> getAlerts() async {
+  Future<List<Alert>?> getAlerts() async {
     var client = http.Client();
     var url = Uri.parse('${apiURL}alerts');
     String? token = await storage.read(key: 'token');
@@ -101,6 +102,7 @@ Future<List<Alert>?> getAlerts() async {
     }
     return null;
   }
+
   Future<http.Response> register(
       String name, String email, String password, String phone) async {
     Map data = {
@@ -147,10 +149,9 @@ Future<List<Alert>?> getAlerts() async {
 
   Future<http.Response> create_post(
       String title,
-      String description,
+      String? description,
       int price,
       int negotiable,
-      XFile image,
       String maker,
       String model,
       String colour,
@@ -170,22 +171,22 @@ Future<List<Alert>?> getAlerts() async {
       "description": description,
       "price": price,
       "negotiable": negotiable,
-      "image":image,
-      "maker":maker,
-      "model":model,
-      "colour":colour,
-      "years":years,
-      "body_type_id":body_type_id,
-      "transmission_type":transmission_type,
-      "kilometrage":kilometrage,
-      "gas_type":gas_type,
-      "doors":doors,
-      "engine_cylinders":engine_cylinders,
-      "condition":condition,
-      "number_of_owners":number_of_owners,
-      "number_of_accidents":number_of_accidents,
-      "type_post":type_post,
+      "maker": maker,
+      "model": model,
+      "colour": colour,
+      "years": years,
+      "body_type_id": body_type_id,
+      "transmission_type": transmission_type,
+      "kilometrage": kilometrage,
+      "gas_type": gas_type,
+      "doors": doors,
+      "engine_cylinders": engine_cylinders,
+      "condition": condition,
+      "number_of_owners": number_of_owners,
+      "number_of_accidents": number_of_accidents,
+      "type_post": type_post,
     };
+
     String? token = await storage.read(key: 'token');
     var body = json.encode(data);
     var url = Uri.parse("${apiURL}post/create");
@@ -198,4 +199,62 @@ Future<List<Alert>?> getAlerts() async {
         body: body);
     return response;
   }
+
+
+Future<http.Response> create_alert(
+  int price_from,
+  int price_to,
+  String? maker,
+  String? model,
+  int? years,
+  int? kilometrage,
+  int? transmission_type,
+  int? condition ,
+  int? body_type_id,
+  String? colour,
+  int? doors,
+  int? engine_cylinders,
+  int? gas_type) async {
+    Map data = {
+      "price_from": price_from,
+      "price_to": price_to,
+      "maker": maker,
+      "model": model,
+      "colour": colour,
+      "years": years,
+      "body_type_id": body_type_id,
+      "transmission_type": transmission_type,
+      "kilometrage": kilometrage,
+      "gas_type": gas_type,
+      "doors": doors,
+      "engine_cylinders": engine_cylinders,
+      "condition": condition,
+    };
+
+    String? token = await storage.read(key: 'token');
+    var body = json.encode(data);
+    var url = Uri.parse("${apiURL}alert/create");
+    http.Response response = await http.post(url,
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "appliction/json",
+          "Authorization": "Bearer $token"
+        },
+        body: body);
+    return response;
+  }
+
+Future<http.Response> deleteAlert(int id) async {
+    var url = Uri.parse("${apiURL}alert/${id}/delete");
+    String? token = await storage.read(key: 'token');
+    http.Response response = await http.delete(url,
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "appliction/json",
+          "Authorization": "Bearer $token"
+        },);
+    return response;
+  }
+
+
 }

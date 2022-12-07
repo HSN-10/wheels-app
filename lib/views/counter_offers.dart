@@ -7,6 +7,7 @@ import 'package:wheels/views/create_alert.dart';
 import '../models/latest_post.dart';
 import '../services/remote_service.dart';
 import '../widget/alert_widget.dart';
+import '../widget/counter_offer_widget.dart';
 import '../widget/post.dart';
 
 class CounterOffersScreen extends StatefulWidget {
@@ -35,8 +36,9 @@ class _CounterOffersScreenState extends State<CounterOffersScreen> {
   }
 
   getData() async {
-    counterOffers = (await RemoteService().getCounterOffers())!.cast<CounterOffers>();
-    
+    counterOffers =
+        (await RemoteService().getCounterOffers())!.cast<CounterOffers>();
+
     setState(() {
       loading = false;
     });
@@ -51,12 +53,16 @@ class _CounterOffersScreenState extends State<CounterOffersScreen> {
         backgroundColor: Colors.green,
       ),
       body: loading
-          ? const CircularProgressIndicator()
+          ? Center(child: const CircularProgressIndicator())
           : Wrap(
-              children: []
-              ),
+              children: List.generate(
+                  counterOffers.length,
+                  (i) => CounterOfferWidget(
+                        image: counterOffers[i].post.image,
+                        user: counterOffers[i].user,
+                        title: counterOffers[i].post.title,
+                        price: counterOffers[i].price,
+                      ))),
     );
   }
 }
-
-

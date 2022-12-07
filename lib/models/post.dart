@@ -1,9 +1,8 @@
-// To parse this JSON data, do
-//
-//     final post = postFromJson(jsonString);
-
-import 'package:meta/meta.dart';
 import 'dart:convert';
+
+import 'package:wheels/models/user.dart';
+
+import 'body_type.dart';
 
 Post postFromJson(String str) => Post.fromJson(json.decode(str));
 
@@ -16,7 +15,8 @@ class Post {
         required this.description,
         required this.user,
         required this.price,
-        required this.isAskPrice,
+        required this.negotiable,
+        required this.image,
         required this.typePost,
         required this.maker,
         required this.model,
@@ -40,7 +40,8 @@ class Post {
     String description;
     User user;
     int price;
-    bool isAskPrice;
+    bool negotiable;
+    String image;
     String typePost;
     String maker;
     String model;
@@ -64,7 +65,8 @@ class Post {
         description: json["description"],
         user: User.fromJson(json["user"]),
         price: json["price"],
-        isAskPrice: json["is_ask_price"],
+        negotiable: json["negotiable"],
+        image: json["image"],
         typePost: json["type_post"],
         maker: json["maker"],
         model: json["model"],
@@ -89,7 +91,8 @@ class Post {
         "description": description,
         "user": user.toJson(),
         "price": price,
-        "is_ask_price": isAskPrice,
+        "negotiable": negotiable,
+        "image": image,
         "type_post": typePost,
         "maker": maker,
         "model": model,
@@ -106,61 +109,5 @@ class Post {
         "number_of_accidents": numberOfAccidents,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
-    };
-}
-
-class BodyType {
-    BodyType({
-        required this.id,
-        required this.name,
-        required this.icon,
-    });
-
-    int id;
-    String name;
-    String icon;
-
-    factory BodyType.fromJson(Map<String, dynamic> json) => BodyType(
-        id: json["id"],
-        name: json["name"],
-        icon: json["icon"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "icon": icon,
-    };
-}
-
-class User {
-    User({
-        required this.id,
-        required this.name,
-        required this.email,
-        required this.phone,
-        required this.createdAt,
-    });
-
-    int id;
-    String name;
-    String email;
-    int phone;
-    DateTime createdAt;
-
-    factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json["id"],
-        name: json["name"],
-        email: json["email"],
-        phone: json["phone"],
-        createdAt: DateTime.parse(json["created_at"]),
-    );
-
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "email": email,
-        "phone": phone,
-        "created_at": createdAt.toIso8601String(),
     };
 }

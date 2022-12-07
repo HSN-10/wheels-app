@@ -23,9 +23,8 @@ class _CreatePostState extends State<CreatePost> {
   List bodyType = [];
   bool loading = true;
   
-  late XFile _image;
   late String title;
-  late String description;
+  late String? description = "";
   late int price;
   late String postTypeValue = postType.first;
   late String negotiableValue = negotiable.first;
@@ -37,7 +36,7 @@ class _CreatePostState extends State<CreatePost> {
   late String conditionValue = condition.first;
   late int number_of_owners;
   late int number_of_accidents;
-  late var bodyTypeValue = 0;
+  late int bodyTypeValue;
   late String colour;
   late int doors;
   late int engine_cylinders;
@@ -46,10 +45,9 @@ class _CreatePostState extends State<CreatePost> {
 create_post() async {
     http.Response response = await RemoteService().create_post(
       title,
-      description,
+      description!,
       price,
       negotiable.indexOf(negotiableValue),
-      _image,
       maker,
       model,
       colour,
@@ -66,10 +64,11 @@ create_post() async {
       postType.indexOf(postTypeValue)
     );
     Map responseMap = jsonDecode(response.body);
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       print(responseMap.values.last);
       Navigator.pop(context);
     } else {
+      print(response.statusCode);
       errorSnackBar(context, responseMap.values.first[0].toString());
     }
   }
@@ -88,9 +87,12 @@ create_post() async {
   }
 @override
   void initState() {
-    super.initState();
+    setState(() {
+      bodyTypeValue = 1;
+    });
     getBodyTypes();
     loading = false;
+    super.initState();
   }
 
   PickedFile? _pickedFile;
@@ -117,13 +119,7 @@ create_post() async {
           backgroundColor: Colors.green,
           actions: [
             IconButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      create_post()
-                    );
-                  }
-                },
+                onPressed: create_post,
                 icon: const Icon(Icons.add))
           ],
         ),
@@ -153,9 +149,6 @@ create_post() async {
                           _pickedFile = await _picker.getImage(
                               source: ImageSource.gallery);
                           if (_pickedFile != null) {
-                            setState(() {
-                              _image = XFile(_pickedFile!.path);
-                            });
                           }
                         },
                       ),
@@ -458,7 +451,7 @@ create_post() async {
                           }).toList(),
                           onChanged: (value) {
                             setState(() {
-                              bodyTypeValue = value;
+                              bodyTypeValue = value as int;
                             });
                           },
                           value: bodyTypeValue,
