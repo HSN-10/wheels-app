@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
+import 'package:wheels/models/post.dart';
 import '../models/user.dart';
 
 class CounterOfferWidget extends StatelessWidget {
   const CounterOfferWidget({
     Key? key,
-    required this.image,
-    required this.title,
+    required this.post,
     required this.price,
     required this.user,
   }) : super(key: key);
-  final String image;
-  final String title;
+  final Post post;
   final int price;
   final User user;
   @override
@@ -28,7 +27,7 @@ class CounterOfferWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Image.network(
-                image,
+                post.image,
                 height: 120,
               ),
               const SizedBox(
@@ -39,14 +38,14 @@ class CounterOfferWidget extends StatelessWidget {
                   Column(
                     children: [
                       Text(
-                        title,
+                        post.title,
                         style: const TextStyle(fontSize: 18),
                       ),
                       Text(price.toString(), style: const TextStyle(fontSize: 15),),
                     ],
                   ),
                   ElevatedButton(
-                onPressed: () => UrlLauncher.launch("tel:+973${user.phone}"),
+                onPressed: () => UrlLauncher.launch("tel:+973${post.user.phone}"),
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green),
                 child: Row(

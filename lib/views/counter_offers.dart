@@ -58,9 +58,8 @@ class _CounterOffersScreenState extends State<CounterOffersScreen> {
               children: List.generate(
                   counterOffers.length,
                   (i) => CounterOfferWidget(
-                        image: counterOffers[i].post.image,
                         user: counterOffers[i].user,
-                        title: counterOffers[i].post.title,
+                        post: counterOffers[i].post,
                         price: counterOffers[i].price,
                       ))),
     );
